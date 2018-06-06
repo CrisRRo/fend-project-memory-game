@@ -48,12 +48,18 @@ console.log(arr);  */
  let firstClickedElement = null;
  let firstCard = null;
 
+ // Setting a variable to keep track of setTimeout function - when function finished, set variable to false
+ let stillWorking = false;
+
  // Keep track of number of matched cards
  let cellNo = 0;
 
  // Add an event listener to the cards
  gameDeck.addEventListener('click', function(event){
-	 manipulateCard(event);
+	 if (!stillWorking) {
+		manipulateCard(event);
+		console.log("Numar carduri", cellNo);
+	 }
 }, false);
 
 // Manipulate cards on click according to their status
@@ -82,30 +88,42 @@ function manipulateCard(event) {
 
 				// Since 2nd card matches the first one => change cards status to "card match" (both cards remain with their face up) -> with a short delay
 				setTimeout(function(){
-					changeCardsStatus(event, "card match");
+					// Start of setTimeout function
+					stillWorking = true;
 
-					// Increase number of matched cards
-					cellNo = cellNo + 2;
+					changeCardsStatus(event, "card match");
 
 					// Reinitialize to null (a new pair of clicks begins)
 					other2cards();
+
+					// End of setTimeout function
+					stillWorking = false;
 				}, 400);
+
+				// Increase number of matched cards
+				cellNo = cellNo + 2;
 			} else {
 				// Show the second clicked card
 				showCard(event);
 
 				// Set the 2 clicked cards attributes to wrong class -> with a short delay
 				setTimeout(function(){
+					// Start of setTimeout function
+					stillWorking = true;
+
 					changeCardsStatus(event, "card open show wrong");
 
 					// Set the 2 clicked cards attributes to its defaults -> with a short delay
 					setTimeout(function(){
 						changeCardsStatus(event, "card");
 
+						// End of setTimeout function
+						stillWorking = false;
+
 						// Reinitialize to null (a new pair of clicks begins)
 						other2cards();
-					}, 400);
-				}, 500);
+					}, 500);
+				}, 300);
 			}
 	}
 }
