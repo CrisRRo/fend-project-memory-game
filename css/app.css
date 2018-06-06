@@ -83,6 +83,7 @@ h1 {
 
 .deck .card.wrong {
     background: #f00;
+	font-size: 60px;
 }
 
 

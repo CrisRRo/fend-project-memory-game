@@ -80,30 +80,32 @@ function manipulateCard(event) {
 				// Show the second clicked card
 				showCard(event);
 
-							// TODO: set a DELAY
-				// Since 2nd card matches the first one => change cards status to "card match" (both cards remain with their face up)
-				changeCardsStatus(event, "card match");
+				// Since 2nd card matches the first one => change cards status to "card match" (both cards remain with their face up) -> with a short delay
+				setTimeout(function(){
+					changeCardsStatus(event, "card match");
 
-				// Increase number of matched cards
-				cellNo = cellNo + 2;
+					// Increase number of matched cards
+					cellNo = cellNo + 2;
 
-				// Reinitialize to null (a new pair of clicks begins)
-				other2cards();
-
+					// Reinitialize to null (a new pair of clicks begins)
+					other2cards();
+				}, 400);
 			} else {
 				// Show the second clicked card
 				showCard(event);
 
-							// TODO: set a DELAY
-				// Set the 2 clicked cards attributes to wrong class
-				changeCardsStatus(event, "card open show wrong");
+				// Set the 2 clicked cards attributes to wrong class -> with a short delay
+				setTimeout(function(){
+					changeCardsStatus(event, "card open show wrong");
 
-							// TODO: set a DELAY
-				// Set the 2 clicked cards attributes to its defaults
-				changeCardsStatus(event, "card");
+					// Set the 2 clicked cards attributes to its defaults -> with a short delay
+					setTimeout(function(){
+						changeCardsStatus(event, "card");
 
-				// Reinitialize to null (a new pair of clicks begins)
-				other2cards();
+						// Reinitialize to null (a new pair of clicks begins)
+						other2cards();
+					}, 400);
+				}, 500);
 			}
 	}
 }
@@ -115,8 +117,8 @@ function showCard(event){
 
 // Change status of the last 2 clicked cards
 function changeCardsStatus(event, cardStatus){
-	firstClickedElement.setAttribute("class", cardStatus);
-	event.target.setAttribute("class", cardStatus);
+		firstClickedElement.setAttribute("class", cardStatus);
+		event.target.setAttribute("class", cardStatus);
 }
 
 // Reinitialize to null (a new pair of clicks begins)
