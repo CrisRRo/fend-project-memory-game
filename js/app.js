@@ -44,6 +44,9 @@ console.log(arr);  */
 // Get the container of the cards
 const gameDeck = document.querySelector(".deck");
 
+// Get the container of the final screen
+const finalScreen = document.querySelector("#end");
+
 // For every 2 clicks, store in these variable the element and the value of the first clicked card
 let firstClickedElement = null;
 let firstCard = null;
@@ -94,6 +97,9 @@ function manipulateCard(event) {
 		// Increase number of matched cards
 		cellNo = cellNo + 2;
 
+		if (cellNo === 16){
+			endOfGame();
+		}
 	} else {
 		// Show the second clicked card
 		showCard(event);
@@ -126,4 +132,10 @@ function changeCardsStatus(event, cardStatus){
 function other2cards(){
 	firstClickedElement = null;
 	firstCard = null;
+}
+
+// End of the game settings
+function endOfGame(){
+	gameDeck.style.display = "none";
+	finalScreen.style.display = "initial";
 }
