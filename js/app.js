@@ -47,6 +47,8 @@ const gameDeck = document.querySelector(".deck");
 // Get the container of the final screen
 const finalScreen = document.querySelector("#end");
 
+const restartButton = document.querySelector(".restart");
+
 // For every 2 clicks, store in these variable the element and the value of the first clicked card
 let firstClickedElement = null;
 let firstCard = null;
@@ -68,6 +70,12 @@ gameDeck.addEventListener('click', function(event){
 			manipulateCard(event);
 		}
 	
+}, false);
+
+restartButton.addEventListener('click', function(event){
+	gameDeck.style.display = "flex";
+	finalScreen.style.display = "none";
+	setCardsOnDeck();
 }, false);
 
 // Manipulate cards on click according to their status
@@ -138,4 +146,9 @@ function other2cards(){
 function endOfGame(){
 	gameDeck.style.display = "none";
 	finalScreen.style.display = "initial";
+}
+
+// Set the cards on the deck for starting a new game
+function setCardsOnDeck(){
+	
 }
