@@ -61,9 +61,8 @@ gameDeck.addEventListener('click', function(event){
 
 			manipulateCard(event);
 
-			// Count number of moves
-			movesNo = movesNo + 1;
-			movesButton.innerText = movesNo;
+			// Increase and display moves number (movesNo = movesNo + 1)
+			setMovesNo(movesNo + 1);
 
 			// Check if it is end of the game
 			if (cellNo === 16){
@@ -77,8 +76,7 @@ restartButton.addEventListener('click', function(event){
 	gameDeck.style.display = "flex";
 	finalScreen.style.display = "none";
 	// Restart number of moves
-	movesNo = 0;
-	movesButton.innerText = movesNo;
+	setMovesNo(0);
 	placeCardsOnDeck();
 }, false);
 
@@ -148,7 +146,12 @@ function endOfGame(){
 	gameDeck.style.display = "none";
 	finalScreen.style.display = "initial";
 	// Restart number of moves
-	movesNo = 0;
+	setMovesNo(0);
+}
+
+// Set and display the number of moves on screen
+function setMovesNo(moves){
+	movesNo = moves;
 	movesButton.innerText = movesNo;
 }
 
