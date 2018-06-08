@@ -41,23 +41,14 @@ console.log(arr);  */
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-// Get the container of the cards
-const gameDeck = document.querySelector(".deck");
-
-// Get the container of the final screen
-const finalScreen = document.querySelector("#end");
-
-const restartButton = document.querySelector(".restart");
-
-// For every 2 clicks, store in these variable the element and the value of the first clicked card
-let firstClickedElement = null;
-let firstCard = null;
-
-// Setting a variable to keep track of setTimeout function - when function finished, set variable to false
-let onDelay = false;
-
-// Keep track of number of matched cards
-let cellNo = 0;
+const gameDeck = document.querySelector(".deck");			// Get the container of the cards
+const finalScreen = document.querySelector("#end");			// Get the container of the final screen
+const restartButton = document.querySelector(".restart");	// Get element showing the final screen
+const movesButton = document.querySelector(".moves");		// Get element showing number of moves
+let firstClickedElement = null;								// For every 2 clicks, store the element of the 1st clicked card
+let firstCard = null;										// For every 2 clicks, store the value of the 1st clicked card
+let cellNo = 0;												// Keep track of number of matched cards
+let movesNo = 0;											// Keep track of number of moves until end of the game
 
 // Add an event listener to the cards
 gameDeck.addEventListener('click', function(event){
@@ -67,15 +58,28 @@ gameDeck.addEventListener('click', function(event){
 		
 		// Check to see if a card is clicked, not the border of the deck && if that card is not already with face up (his class is 'card match' or 'card open show' (otherwise nothing happens)
 		if ((event.target.nodeName === 'LI') && !thisCard.includes("match") && !thisCard.includes("open")){
+
 			manipulateCard(event);
+
+			// Count number of moves
+			movesNo = movesNo + 1;
+			movesButton.innerText = movesNo;
+
+			// Check if it is end of the game
+			if (cellNo === 16){
+				endOfGame();
+			}
 		}
-	
+
 }, false);
 
 restartButton.addEventListener('click', function(event){
 	gameDeck.style.display = "flex";
 	finalScreen.style.display = "none";
-	setCardsOnDeck();
+	// Restart number of moves
+	movesNo = 0;
+	movesButton.innerText = movesNo;
+	placeCardsOnDeck();
 }, false);
 
 // Manipulate cards on click according to their status
@@ -105,9 +109,6 @@ function manipulateCard(event) {
 		// Increase number of matched cards
 		cellNo = cellNo + 2;
 
-		if (cellNo === 16){
-			endOfGame();
-		}
 	} else {
 		// Show the second clicked card
 		showCard(event);
@@ -121,7 +122,7 @@ function manipulateCard(event) {
 
 			// Reinitialize to null (a new pair of clicks begins)
 			other2cards();
-		}, 800);		
+		}, 300);
 	}
 }
 
@@ -146,9 +147,12 @@ function other2cards(){
 function endOfGame(){
 	gameDeck.style.display = "none";
 	finalScreen.style.display = "initial";
+	// Restart number of moves
+	movesNo = 0;
+	movesButton.innerText = movesNo;
 }
 
 // Set the cards on the deck for starting a new game
-function setCardsOnDeck(){
+function placeCardsOnDeck(){
 	
 }
