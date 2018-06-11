@@ -45,10 +45,16 @@ const gameDeck = document.querySelector(".deck");			// Get the container of the 
 const finalScreen = document.querySelector("#end");			// Get the container of the final screen
 const restartButton = document.querySelector(".restart");	// Get element showing the final screen
 const movesButton = document.querySelector(".moves");		// Get element showing number of moves
+const stars = document.querySelector(".stars");				// Get element showing number of stars
 let firstClickedElement = null;								// For every 2 clicks, store the element of the 1st clicked card
 let firstCard = null;										// For every 2 clicks, store the value of the 1st clicked card
 let cellNo = 0;												// Keep track of number of matched cards
 let movesNo = 0;											// Keep track of number of moves until end of the game
+let starsNo = 3;											// Keep track of number of stars to be displayed
+
+if (movesNo === 0) {
+	createStars(3); // No wrong moves yet (beginning of the game)
+}
 
 // Add an event listener to the cards
 gameDeck.addEventListener('click', function(event){
@@ -60,14 +66,16 @@ gameDeck.addEventListener('click', function(event){
 		if ((event.target.nodeName === 'LI') && !thisCard.includes("match") && !thisCard.includes("open")){
 
 			manipulateCard(event);
-
+		
 			// Increase and display moves number (movesNo = movesNo + 1)
 			setMovesNo(movesNo + 1);
 
-			// Check if it is end of the game
+			// Check if it is end of the game (all 16 cards are matched)
 			if (cellNo === 16){
 				endOfGame();
 			}
+			
+			displayStars();
 		}
 
 }, false);
@@ -75,8 +83,8 @@ gameDeck.addEventListener('click', function(event){
 restartButton.addEventListener('click', function(event){
 	gameDeck.style.display = "flex";
 	finalScreen.style.display = "none";
-	// Restart number of moves
-	setMovesNo(0);
+	setMovesNo(0); // Restart number of moves
+	createStars(3); // Restart number of stars
 	placeCardsOnDeck();
 }, false);
 
@@ -145,6 +153,7 @@ function other2cards(){
 function endOfGame(){
 	gameDeck.style.display = "none";
 	finalScreen.style.display = "initial";
+	finalScreen.insertAdjacentHTML("beforeend", "<br > With " + movesNo + " moves and " + starsNo + " stars");
 	// Restart number of moves
 	setMovesNo(0);
 }
@@ -158,4 +167,30 @@ function setMovesNo(moves){
 // Set the cards on the deck for starting a new game
 function placeCardsOnDeck(){
 	
+}
+
+// Create the necessary number of stars on the screen
+function createStars(number){
+	if (number === 3){
+		// Create 3 stars
+		stars.innerHTML = "<li><i class='fa fa-star'></i></li><li><i class='fa fa-star'></i></li><li><i class='fa fa-star'></i></li>";
+	} else if (number === 2){
+		// Create 2 stars
+		stars.innerHTML = "<li><i class='fa fa-star'></i></li><li><i class='fa fa-star'></i></li>";
+	} else {
+		// Create 1star
+		stars.innerHTML = "<li><i class='fa fa-star'></i></li>";
+	}
+}
+
+function displayStars() {
+	if (movesNo > 52) {
+		createStars(1); // There are more than 10 wrong moves => display only 1 star
+		starsNo = 1;
+	} else if (movesNo > 42) {
+		createStars(2); // There are more than 20 wrong moves => display only 2 stars
+		starsNo = 2;
+	} else {
+		starsNo = 3;
+	}
 }
