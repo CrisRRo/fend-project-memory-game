@@ -96,18 +96,45 @@ h1 {
 #end {
     width: 660px;
     min-height: 680px;
-    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-    padding: 32px;
+	background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+	padding: 240px 32px 32px;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
-    margin: 0 0 3em;
+	text-align: center;
 	display: none;
 }
 
 .replay {
-	margin-top: -330px;
+	margin-top: -280px;
 	display: none;
-	background-color: #02CCBA;
+	color: #ecf5f8;
+	background-color: #3c8baa;
+	padding: 10px;
+	border-radius: 7px;
+	box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+	font-size: 30px;
+	font-family: Impact, Charcoal, sans-serif;
+	cursor: pointer;
+}
+
+.first-message{
+	color: #FFF;
+	font-weight: bold;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 30px;
+}
+
+.second-message{
+	font-weight: bold;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 26px;
+	margin-top: 10px;
+}
+
+.score-message{
+	font-style: italic;
+	font-size: 20px;
+	margin-top: 10px;
 }
 
 /*

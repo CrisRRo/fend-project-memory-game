@@ -4,6 +4,7 @@
 let myCardList = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
 const gameDeck = document.querySelector(".deck");			// Get the container of the cards
 const finalScreen = document.querySelector("#end");			// Get the container of the final screen
+const scoreMes = document.querySelector(".score-message");	// Get the third line of congratulation message
 const playAgainButton = document.querySelector(".replay");	// Get the container of the play again button
 const restartButton = document.querySelector(".restart");	// Get element showing the final screen
 const movesButton = document.querySelector(".moves");		// Get element showing number of moves
@@ -134,7 +135,9 @@ function endOfGame(){
 	gameDeck.style.display = "none";
 	finalScreen.style.display = "initial";
 	playAgainButton.style.display = "initial";
-	finalScreen.innerHTML = "<i>CONGRATULATIONS! You wonnnn!!</i><br > With " + movesNo + " moves and " + starsNo + " stars";
+	
+	// Display the score at the end of the game
+	scoreMes.innerHTML = "- with " + movesNo + " moves and " + starsNo + " stars -";
 
 	// Stop time counter
 	clearInterval(myInterval);
