@@ -106,7 +106,7 @@ h1 {
 
 .replay {
 	margin-top: -330px;
-	display: initial;
+	display: none;
 	background-color: #02CCBA;
 }
 
