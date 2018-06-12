@@ -46,11 +46,16 @@ const finalScreen = document.querySelector("#end");			// Get the container of th
 const restartButton = document.querySelector(".restart");	// Get element showing the final screen
 const movesButton = document.querySelector(".moves");		// Get element showing number of moves
 const stars = document.querySelector(".stars");				// Get element showing number of stars
+const minutes = document.querySelector(".minutes");			// Get element showing number of minutes
+const seconds = document.querySelector(".seconds");			// Get element showing number of seconds
 let firstClickedElement = null;								// For every 2 clicks, store the element of the 1st clicked card
 let firstCard = null;										// For every 2 clicks, store the value of the 1st clicked card
 let cellNo = 0;												// Keep track of number of matched cards
 let movesNo = 0;											// Keep track of number of moves until end of the game
 let starsNo = 3;											// Keep track of number of stars to be displayed
+let timer = 0;												// Keep track of seconds passed from the beginning of the game
+let gameStarted = false;									// Keep track if a new game has started or not
+let myInterval;												// Store the ID of setInterval function
 
 if (movesNo === 0) {
 	createStars(3); // No wrong moves yet (beginning of the game)
@@ -64,7 +69,13 @@ gameDeck.addEventListener('click', function(event){
 		
 		// Check to see if a card is clicked, not the border of the deck && if that card is not already with face up (his class is 'card match' or 'card open show' (otherwise nothing happens)
 		if ((event.target.nodeName === 'LI') && !thisCard.includes("match") && !thisCard.includes("open")){
-
+			
+			if (!gameStarted) {
+				gameStarted = true;
+				displayTime();
+				myInterval = setInterval(displayTime, 1000);
+			}
+		
 			manipulateCard(event);
 		
 			// Increase and display moves number (movesNo = movesNo + 1)
@@ -77,15 +88,16 @@ gameDeck.addEventListener('click', function(event){
 			
 			displayStars();
 		}
-
 }, false);
 
 restartButton.addEventListener('click', function(event){
 	gameDeck.style.display = "flex";
 	finalScreen.style.display = "none";
-	setMovesNo(0); // Restart number of moves
-	createStars(3); // Restart number of stars
-	placeCardsOnDeck();
+	setMovesNo(0);					// Restart number of moves
+	createStars(3);					// Restart number of stars
+	clearInterval(myInterval);		// Stop time counter
+	initializeTime();				// Restart timer related aspects
+	placeCardsOnDeck();				// Display cards on the screen
 }, false);
 
 // Manipulate cards on click according to their status
@@ -156,6 +168,8 @@ function endOfGame(){
 	finalScreen.insertAdjacentHTML("beforeend", "<br > With " + movesNo + " moves and " + starsNo + " stars");
 	// Restart number of moves
 	setMovesNo(0);
+	// Stop time counter
+	clearInterval(myInterval);
 }
 
 // Set and display the number of moves on screen
@@ -193,4 +207,32 @@ function displayStars() {
 	} else {
 		starsNo = 3;
 	}
+}
+
+function displayTime() {
+	displayMinutess();
+	displaySeconds();
+	timer++;
+}
+
+function displaySeconds(){
+	if (Math.floor(timer % 60) < 10) {
+		seconds.innerText = "0" + Math.floor(timer % 60);
+	} else {
+		seconds.innerText = Math.floor(timer % 60);
+	}
+}
+
+function displayMinutess(){
+	if (Math.floor(timer / 60) < 10) {
+		minutes.innerText = "0" + Math.floor(timer / 60);
+	} else {
+		minutes.innerText = Math.floor(timer / 60);
+	}
+}
+
+function initializeTime(){
+	timer = 0;
+	displayTime();
+	gameStarted = false;
 }
