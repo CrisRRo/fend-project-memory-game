@@ -4,6 +4,7 @@
 let myCardList = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
 const gameDeck = document.querySelector(".deck");			// Get the container of the cards
 const finalScreen = document.querySelector("#end");			// Get the container of the final screen
+const playAgainButton = document.querySelector(".replay");	// Get the container of the play again button
 const restartButton = document.querySelector(".restart");	// Get element showing the final screen
 const movesButton = document.querySelector(".moves");		// Get element showing number of moves
 const stars = document.querySelector(".stars");				// Get element showing number of stars
@@ -65,17 +66,7 @@ gameDeck.addEventListener('click', function(event){
 		}
 }, false);
 
-restartButton.addEventListener('click', function(event){
-	gameDeck.style.display = "flex";
-	finalScreen.style.display = "none";
-	setMovesNo(0);						// Restart number of moves
-	createStars(3);						// Restart number of stars
-	clearInterval(myInterval);			// Stop time counter
-	initializeTime();					// Restart timer related aspects
-	myCardList = shuffle(myCardList);	// Shuffle the cards
-	placeCardsOnDeck();					// Display cards on the screen
-	cellNo = 0;							// Restart number of matched cards	
-}, false);
+restartButton.addEventListener('click', restartGame, false);
 
 // Manipulate cards on click according to their status
 function manipulateCard(event) {
@@ -142,13 +133,13 @@ function other2cards(){
 function endOfGame(){
 	gameDeck.style.display = "none";
 	finalScreen.style.display = "initial";
+	playAgainButton.style.display = "initial";
 	finalScreen.innerHTML = "<i>CONGRATULATIONS! You wonnnn!!</i><br > With " + movesNo + " moves and " + starsNo + " stars";
-	// Restart number of moves - TODO: Put it into "Play again" button
-	setMovesNo(0);
+
 	// Stop time counter
 	clearInterval(myInterval);
-	// Restart number of matched cards - TODO: Put it into "Play again" button
-	cellNo = 0;	
+
+	playAgainButton.addEventListener('click', replay, false);
 }
 
 // Set and display the number of moves on screen
@@ -197,7 +188,7 @@ function displayStars() {
 }
 
 function displayTime() {
-	displayMinutess();
+	displayMinutes();
 	displaySeconds();
 	timer++;
 }
@@ -210,7 +201,7 @@ function displaySeconds(){
 	}
 }
 
-function displayMinutess(){
+function displayMinutes(){
 	if (Math.floor(timer / 60) < 10) {
 		minutes.innerText = "0" + Math.floor(timer / 60);
 	} else {
@@ -244,4 +235,30 @@ function shuffle(array) {
     }
 
     return array;
+}
+
+// Things to happen when replay button is pressed
+function replay(){
+	gameDeck.style.display = "flex";
+	finalScreen.style.display = "none";
+	playAgainButton.style.display = "none";
+	setMovesNo(0);						// Restart number of moves
+	createStars(3);						// Restart number of stars
+	initializeTime();					// Restart timer related aspects
+	myCardList = shuffle(myCardList);	// Shuffle the cards
+	placeCardsOnDeck();					// Display cards on the screen
+	cellNo = 0;							// Restart number of matched cards	
+}
+
+function restartGame(){
+	gameDeck.style.display = "flex";
+	finalScreen.style.display = "none";
+	playAgainButton.style.display = "none";
+	setMovesNo(0);						// Restart number of moves
+	createStars(3);						// Restart number of stars
+	clearInterval(myInterval);			// Stop time counter
+	initializeTime();					// Restart timer related aspects
+	myCardList = shuffle(myCardList);	// Shuffle the cards
+	placeCardsOnDeck();					// Display cards on the screen
+	cellNo = 0;							// Restart number of matched cards	
 }
