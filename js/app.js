@@ -1,49 +1,7 @@
-
-
-
 /*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
+ * Create a list that holds all of the cards
  */
- 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
-
-/* Used like so - TO BE DELETED
-var arr = [2, 11, 37, 42];
-arr = shuffle(arr);
-console.log(arr);  */
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
- 
- 
-/*
- * Create a list that holds all of your cards
- */
-const myCardList = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
+let myCardList = ["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb", "fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-leaf", "fa fa-bicycle", "fa fa-bomb"];
 const gameDeck = document.querySelector(".deck");			// Get the container of the cards
 const finalScreen = document.querySelector("#end");			// Get the container of the final screen
 const restartButton = document.querySelector(".restart");	// Get element showing the final screen
@@ -64,6 +22,20 @@ if (movesNo === 0) {
 	createStars(3); // No wrong moves yet (beginning of the game)
 }
 
+// Display cards for the first time
+myCardList = shuffle(myCardList);
+placeCardsOnDeck();
+
+/*
+ * set up the event listener for a card. If a card is clicked:
+ *  - display the card's symbol (put this functionality in another function that you call from this one)
+ *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
+ *  - if the list already has another card, check to see if the two cards match
+ *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
+ *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
+ *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+ *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ */
 // Add an event listener to the cards
 gameDeck.addEventListener('click', function(event){
 	
@@ -96,11 +68,13 @@ gameDeck.addEventListener('click', function(event){
 restartButton.addEventListener('click', function(event){
 	gameDeck.style.display = "flex";
 	finalScreen.style.display = "none";
-	setMovesNo(0);					// Restart number of moves
-	createStars(3);					// Restart number of stars
-	clearInterval(myInterval);		// Stop time counter
-	initializeTime();				// Restart timer related aspects
-	placeCardsOnDeck();				// Display cards on the screen
+	setMovesNo(0);						// Restart number of moves
+	createStars(3);						// Restart number of stars
+	clearInterval(myInterval);			// Stop time counter
+	initializeTime();					// Restart timer related aspects
+	myCardList = shuffle(myCardList);	// Shuffle the cards
+	placeCardsOnDeck();					// Display cards on the screen
+	cellNo = 0;							// Restart number of matched cards	
 }, false);
 
 // Manipulate cards on click according to their status
@@ -168,11 +142,13 @@ function other2cards(){
 function endOfGame(){
 	gameDeck.style.display = "none";
 	finalScreen.style.display = "initial";
-	finalScreen.insertAdjacentHTML("beforeend", "<br > With " + movesNo + " moves and " + starsNo + " stars");
-	// Restart number of moves
+	finalScreen.innerHTML = "<i>CONGRATULATIONS! You wonnnn!!</i><br > With " + movesNo + " moves and " + starsNo + " stars";
+	// Restart number of moves - TODO: Put it into "Play again" button
 	setMovesNo(0);
 	// Stop time counter
 	clearInterval(myInterval);
+	// Restart number of matched cards - TODO: Put it into "Play again" button
+	cellNo = 0;	
 }
 
 // Set and display the number of moves on screen
@@ -183,7 +159,15 @@ function setMovesNo(moves){
 
 // Set the cards on the deck for starting a new game
 function placeCardsOnDeck(){
-	
+	gameDeck.innerHTML="";
+	for(var r=0; r<myCardList.length; r++){
+		// Create one card
+		let thisCard = document.createElement("LI");
+		thisCard.setAttribute("class", "card");
+		thisCard.innerHTML = "<i class='" + myCardList[r] + "'></i>";
+		// Display the created card
+		gameDeck.appendChild(thisCard);
+	}
 }
 
 // Create the necessary number of stars on the screen
@@ -238,4 +222,26 @@ function initializeTime(){
 	timer = 0;
 	displayTime();
 	gameStarted = false;
+}
+
+/*
+ * Display the cards on the page
+ *   - shuffle the list of cards using the provided "shuffle" method below
+ *   - loop through each card and create its HTML
+ *   - add each card's HTML to the page
+ */
+ 
+// Shuffle function from http://stackoverflow.com/a/2450976
+function shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
 }
