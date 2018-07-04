@@ -180,10 +180,10 @@ function createStars(number){
 
 function displayStars() {
 	if (movesNo > 52) {
-		createStars(1); // There are more than 10 wrong moves => display only 1 star
+		createStars(1); // There are more than 20 wrong moves => display only 1 star
 		starsNo = 1;
 	} else if (movesNo > 42) {
-		createStars(2); // There are more than 20 wrong moves => display only 2 stars
+		createStars(2); // There are more than 10 wrong moves => display only 2 stars
 		starsNo = 2;
 	} else {
 		starsNo = 3;
