@@ -162,9 +162,13 @@ h1 {
 .score-panel .restart {
     float: right;
     cursor: pointer;
+	color: #28BBBE;
 }
 
 .score-panel .timer {
-    float: right;
-	margin-right: 30px; 
+    margin-left: 20px;
+}
+
+.score-panel .moves {
+    margin-left: 20px;
 }
