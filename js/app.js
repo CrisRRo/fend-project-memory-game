@@ -42,10 +42,10 @@ placeCardsOnDeck();
 gameDeck.addEventListener('click', function(event){
 	
 		// Store this card attribute
-		let thisCard = event.target.getAttribute("class");
+		let thisCard = event.target.getAttribute('class');
 		
 		// Check to see if a card is clicked, not the border of the deck && if that card is not already with face up (his class is 'card match' or 'card open show' (otherwise nothing happens)
-		if ((event.target.nodeName === 'LI') && !thisCard.includes("match") && !thisCard.includes("open")){
+		if ((event.target.nodeName === 'LI') && !thisCard.includes('match') && !thisCard.includes('open')){
 			
 			if (!gameStarted) {
 				gameStarted = true;
@@ -75,20 +75,20 @@ function manipulateCard(event) {
 	if (firstClickedElement === null){
 
 		// No card clicked yet => store its value (class) into firstCard variable
-		firstCard = event.target.lastElementChild.getAttribute("class");
+		firstCard = event.target.lastElementChild.getAttribute('class');
 
 		// Show the card
 		showCard(event);
 
 		// Get the element of the first clicked card
-		firstClickedElement = document.querySelector(".clicked");
+		firstClickedElement = document.querySelector('.clicked');
 
-	} else if (firstCard === event.target.lastElementChild.getAttribute("class")) {
+	} else if (firstCard === event.target.lastElementChild.getAttribute('class')) {
 		// Show the second clicked card
 		showCard(event);
 
 		// Since 2nd card matches the first one => change cards status to "card match" (both cards remain with their face up) -> with a short delay
-		changeCardsStatus(event, "card match");
+		changeCardsStatus(event, 'card match');
 
 		// Reinitialize to null (a new pair of clicks begins)
 		other2cards();
@@ -101,11 +101,11 @@ function manipulateCard(event) {
 		showCard(event);
 
 		// Set the 2 clicked cards attributes to wrong class -> with a short delay
-		changeCardsStatus(event, "card open show wrong");
+		changeCardsStatus(event, 'card open show wrong');
 
 		// Set the 2 clicked cards attributes to its defaults -> with a short delay
 		setTimeout(function(){
-			changeCardsStatus(event, "card");
+			changeCardsStatus(event, 'card');
 
 			// Reinitialize to null (a new pair of clicks begins)
 			other2cards();
@@ -115,13 +115,13 @@ function manipulateCard(event) {
 
 // Show the card when it is clicked (change its class to open show)
 function showCard(event){
-	event.target.setAttribute("class", "card open show clicked");
+	event.target.setAttribute('class', 'card open show clicked');
 }
 
 // Change status of the last 2 clicked cards
 function changeCardsStatus(event, cardStatus){
-	event.target.setAttribute("class", cardStatus);
-	firstClickedElement.setAttribute("class", cardStatus);
+	event.target.setAttribute('class', cardStatus);
+	firstClickedElement.setAttribute('class', cardStatus);
 }
 
 // Reinitialize to null (a new pair of clicks begins)
@@ -132,9 +132,9 @@ function other2cards(){
 
 // End of the game settings
 function endOfGame(){
-	gameDeck.style.display = "none";
-	finalScreen.style.display = "initial";
-	playAgainButton.style.display = "initial";
+	gameDeck.style.display = 'none';
+	finalScreen.style.display = 'initial';
+	playAgainButton.style.display = 'initial';
 	
 	// Display the score at the end of the game
 	scoreMes.innerHTML = "- with " + movesNo + " moves and " + starsNo + " stars -";
@@ -242,9 +242,9 @@ function shuffle(array) {
 
 // Things to happen when replay button is pressed
 function replay(){
-	gameDeck.style.display = "flex";
-	finalScreen.style.display = "none";
-	playAgainButton.style.display = "none";
+	gameDeck.style.display = 'flex';
+	finalScreen.style.display = 'none';
+	playAgainButton.style.display = 'none';
 	setMovesNo(0);						// Restart number of moves
 	createStars(3);						// Restart number of stars
 	initializeTime();					// Restart timer related aspects
@@ -254,9 +254,9 @@ function replay(){
 }
 
 function restartGame(){
-	gameDeck.style.display = "flex";
-	finalScreen.style.display = "none";
-	playAgainButton.style.display = "none";
+	gameDeck.style.display = 'flex';
+	finalScreen.style.display = 'none';
+	playAgainButton.style.display = 'none';
 	setMovesNo(0);						// Restart number of moves
 	createStars(3);						// Restart number of stars
 	clearInterval(myInterval);			// Stop time counter
