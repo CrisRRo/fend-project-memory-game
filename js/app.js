@@ -91,7 +91,7 @@ function manipulateCard(event) {
 		changeCardsStatus(event, 'card match');
 
 		// Reinitialize to null (a new pair of clicks begins)
-		other2cards();
+		other2Cards();
 		
 		// Increase number of matched cards
 		cellNo = cellNo + 2;
@@ -108,7 +108,7 @@ function manipulateCard(event) {
 			changeCardsStatus(event, 'card');
 
 			// Reinitialize to null (a new pair of clicks begins)
-			other2cards();
+			other2Cards();
 		}, 300);
 	}
 }
@@ -125,7 +125,7 @@ function changeCardsStatus(event, cardStatus){
 }
 
 // Reinitialize to null (a new pair of clicks begins)
-function other2cards(){
+function other2Cards(){
 	firstClickedElement = null;
 	firstCard = null;
 }
@@ -264,4 +264,5 @@ function restartGame(){
 	myCardList = shuffle(myCardList);	// Shuffle the cards
 	placeCardsOnDeck();					// Display cards on the screen
 	cellNo = 0;							// Restart number of matched cards	
+	other2Cards();						// Reinitialize to null (a new pair of clicks begins)
 }
